@@ -1,46 +1,53 @@
 pipeline{
     agent any
     stages{
-        stage('Verify'){
+        stage('Verify Environment'){
             steps{
+                echo "Verifying Java And Maven Installation"
                 sh 'java --version'
                 sh 'mvn --version'
             }
         }
-        stage('Cloning The Repo'){
+        stage('Clean'){
             steps{
-                'git clone'
-
+                echo "Cleaning The Workspace"
+                sh 'mvn clean'
             }
         }
         stage('Compile'){
             steps{
+                echo "Compiling The Java Files"
                 sh 'mvn compile'
             }
         }
         stage('Test'){
             steps{
+                echo "Unit Testing"
                 sh 'mvn test'
             }
         }
         stage('Package'){
             steps{
+                echo "Packaging EMS"
                 sh 'mvn package'
             }
         }
         stage('Verify Artifact'){
             steps{
+                echo "Verifying The Target Folder"
                 sh 'ls -lh target'
             }
         }
         stage('Archive Artifact'){
             steps{
+                echo "Storing .jar files in target folder"
                 archiveArtifacts artifacts: 'target/*.jar' , fingerprint : true
             }
         }
+    }
         post{
             success{
-                emailtext(
+                emailext(
                     subject: "SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                     body:"""
                     Hello,
@@ -55,11 +62,11 @@ pipeline{
                     Regards,
                     Jenkins
                     """ ,
-                    to: vamsitemp69@gmail.com
+                    to: "vamsitemp69@gmail.com"
                 )
             }
             failure{
-                emailtext(
+                emailext(
                     subject: "FAILURE: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                     body:"""
                     Hello,
@@ -74,10 +81,10 @@ pipeline{
                     Regards,
                     Jenkins
                     """ ,
-                    to: vamsitemp69@gmail.com
+                    to: "vamsitemp69@gmail.com"
                 )
 
             }
         }
+        
     }
-}
