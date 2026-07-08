@@ -48,7 +48,7 @@ pipeline{
         post{
             success{
                 mail(
-                    to: "vamsitemp69@gmail.com"
+                    to: "vamsitemp69@gmail.com",
                     subject: "SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                     body:"""
                     Hello,
@@ -67,7 +67,7 @@ pipeline{
             }
             failure{
                 mail(
-                    to: "vamsitemp69@gmail.com"
+                    to: "vamsitemp69@gmail.com",
                     subject: "FAILURE: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                     body:"""
                     Hello,
