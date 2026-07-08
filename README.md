@@ -17,10 +17,8 @@ This project was built as part of my DevOps learning journey to understand how m
 * Jenkins Declarative Pipeline
 * Automated Maven build lifecycle
 * Artifact generation and archiving
-* Build fingerprinting
 * Email notifications on build success and failure
 * Version control using Git and GitHub
-* Release management using Git Tags
 
 ---
 
