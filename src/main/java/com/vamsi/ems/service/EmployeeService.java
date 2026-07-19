@@ -1,27 +1,21 @@
 package com.vamsi.ems.service;
 
 import com.vamsi.ems.model.Employee;
-
-import java.util.ArrayList;
+import com.vamsi.ems.dao.EmployeeDAO;
 import java.util.List;
 
 public class EmployeeService {
 
-    // Stores all employees
-    private final List<Employee> employeeList = new ArrayList<>();
+    private final EmployeeDAO eDAO = new EmployeeDAO();
 
     // Add Employee
-    public void addEmployee(Employee employee) {
-        employeeList.add(employee);
+    public boolean addEmployee(Employee employee) {
+        return eDAO.addEmployee(employee);
     }
 
     // View Employees
     public List<Employee> getEmployees() {
-        return employeeList;
+        return eDAO.getEmployees();
     }
 
-    // Get Total Employee Count
-    public int getEmployeeCount() {
-        return employeeList.size();
-    }
 }

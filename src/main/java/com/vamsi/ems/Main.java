@@ -42,9 +42,14 @@ public class Main {
 
                     Employee employee = new Employee(id, name, role, salary);
 
-                    employeeService.addEmployee(employee);
+                    boolean isAdded = employeeService.addEmployee(employee);
 
-                    System.out.println("\nEmployee Added Successfully!");
+                    if(isAdded){
+                        System.out.println("\nEmployee Added Successfully!");
+                    }
+                    else{
+                        System.out.println("\nFailed to Add Employee!");
+                    }
 
                     break;
 
