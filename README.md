@@ -1,10 +1,12 @@
-# Employee Management System - Jenkins CI Pipeline
+# Employee Management System (EMS)
 
 ## Overview
 
-Employee Management System (EMS) is a Java Maven application developed to demonstrate Continuous Integration (CI) using Jenkins Declarative Pipeline. The project showcases an automated build process including compilation, testing, packaging, artifact archiving and email notifications.
+Employee Management System (EMS) is a Java Maven-based console application developed to demonstrate software development practices using Java, JDBC, MySQL, Git and DevOps workflows.
 
-This project was built as part of my DevOps learning journey to understand how modern CI pipelines automate software builds and improve development workflows.
+The project started as a simple employee management console application and evolved into a database-driven application by integrating MySQL using JDBC.
+
+This project is part of my DevOps learning journey, focusing on application development, database integration, version control, containerization and CI/CD automation.
 
 ---
 
@@ -12,13 +14,12 @@ This project was built as part of my DevOps learning journey to understand how m
 
 * Add Employee
 * View Employee
-* Maven based Java project
-* Unit testing using JUnit
-* Jenkins Declarative Pipeline
-* Automated Maven build lifecycle
-* Artifact generation and archiving
-* Email notifications on build success and failure
-* Version control using Git and GitHub
+* MySQL Database Integration using JDBC
+* DAO based database operations
+* Service layer for business logic
+* JUnit 5 Integration Testing
+* Git based feature branch workflow
+* Jenkins Declarative Pipeline foundation
 
 ---
 
@@ -26,26 +27,141 @@ This project was built as part of my DevOps learning journey to understand how m
 
 * Java 17
 * Maven
+* JDBC
+* MySQL 9
 * JUnit 5
-* Jenkins
 * Git
 * GitHub
-* Lombok
+* Jenkins
 
 ---
 
-## Jenkins Pipeline Stages
+## Application Architecture
 
-The pipeline performs the following stages automatically:
+```text
+Main.java
+    |
+    |
+EmployeeService
+    |
+    |
+EmployeeDAO
+    |
+    |
+JDBC Connection
+    |
+    |
+MySQL Database
+```
+
+### Layers
+
+### Model Layer
+
+Contains the Employee entity.
+
+Example:
+
+```text
+Employee
+- id
+- name
+- role
+- salary
+```
+
+---
+
+### Service Layer
+
+Handles business logic and communicates between the application and database layer.
+
+---
+
+### DAO Layer
+
+Responsible for database operations:
+
+* Insert Employee
+* Retrieve Employees
+
+---
+
+## Database Details
+
+Database:
+
+```text
+employee_db
+```
+
+Table:
+
+```text
+employees
+```
+
+Table Structure:
+
+```text
+id
+name
+role
+salary
+```
+
+The application connects to MySQL using JDBC Driver.
+
+---
+
+## Testing
+
+JUnit 5 is used for integration testing.
+
+Testing includes:
+
+* Database connection verification
+* Employee insertion verification
+* Employee retrieval verification
+
+Test flow:
+
+```text
+Clean Test Data
+
+        ↓
+
+Insert Employee
+
+        ↓
+
+Retrieve Employee
+
+        ↓
+
+Verify Employee Details
+
+        ↓
+
+Cleanup Test Data
+```
+
+---
+
+## Jenkins CI Pipeline
+
+The project contains a Jenkins Declarative Pipeline configuration.
+
+Current Jenkins pipeline demonstrates:
 
 1. Verify Environment
 
-   * Verifies Java installation
-   * Verifies Maven installation
+   * Verify Java installation
+   * Verify Maven installation
 
 2. Clean
 
-   * Executes Maven Clean phase
+   * Executes Maven clean phase
 
 3. Compile
 
@@ -57,21 +173,15 @@ The pipeline performs the following stages automatically:
 
 5. Package
 
-   * Generates executable JAR file
+   * Generates executable JAR artifact
 
-6. Verify Artifact
+6. Archive Artifact
 
-   * Verifies generated build artifact
+   * Archives generated build artifact
 
-7. Archive Artifact
+7. Post Build Actions
 
-   * Archives JAR file inside Jenkins
-   * Generates artifact fingerprint
-
-8. Post Build Actions
-
-   * Sends email notification on Success
-   * Sends email notification on Failure
+   * Build notifications
 
 ---
 
@@ -79,8 +189,11 @@ The pipeline performs the following stages automatically:
 
 ```text
 mvn clean
+
 mvn compile
+
 mvn test
+
 mvn package
 ```
 
@@ -95,103 +208,118 @@ employee-management-system
 │   ├── main
 │   │   └── java
 │   │       └── com.vamsi.ems
+│   │           ├── config
+│   │           │   └── DBConnection.java
+│   │           │
+│   │           ├── dao
+│   │           │   └── EmployeeDAO.java
+│   │           │
 │   │           ├── model
+│   │           │   └── Employee.java
+│   │           │
 │   │           ├── service
+│   │           │   └── EmployeeService.java
+│   │           │
 │   │           └── Main.java
 │   │
 │   └── test
 │       └── java
+│           └── EmployeeServiceTest.java
 │
 ├── Jenkinsfile
 ├── pom.xml
-├── .gitignore
-└── README.md
-```
-
----
-
-## Build Pipeline Flow
-
-```text
-GitHub Repository
-        │
-        ▼
-Jenkins Checkout
-        │
-        ▼
-Verify Environment
-        │
-        ▼
-Clean
-        │
-        ▼
-Compile
-        │
-        ▼
-Run Unit Tests
-        │
-        ▼
-Package
-        │
-        ▼
-Verify Artifact
-        │
-        ▼
-Archive Artifact
-        │
-        ▼
-Email Notification
+├── README.md
+└── .gitignore
 ```
 
 ---
 
 ## Running the Project Locally
 
-Clone the repository
+Clone the repository:
 
 ```bash
 git clone https://github.com/VamsiK-11/Employee-Management-System.git
 ```
 
-Navigate to the project
+Navigate into project:
 
 ```bash
 cd employee-management-system
 ```
 
-Compile
+Compile:
 
 ```bash
 mvn compile
 ```
 
-Run tests
+Run tests:
 
 ```bash
 mvn test
 ```
 
-Generate JAR
+Generate JAR:
 
 ```bash
 mvn package
 ```
 
+Run application:
+
+```bash
+java -jar target/employee-management-system.jar
+```
+
 ---
 
-## Jenkins Configuration
+## Git Workflow
 
-* Pipeline from SCM
-* GitHub Repository Integration
-* Artifact Archiving
-* Email Notification
-* Build Logs
+The project follows feature-based development.
+
+Example:
+
+```text
+develop
+
+   |
+
+feature/mysql-integration
+
+   |
+
+Merge into develop
+```
+
+Current development flow:
+
+```text
+Feature Branch
+       |
+       |
+Development
+       |
+       |
+Release Version
+```
 
 ---
 
 ## Version
 
-Current Release
+Current Release:
 
-v1.0
+```text
+v1.1
+```
 
+Release Notes:
+
+```text
+v1.1
+- Added MySQL JDBC Integration
+- Added DAO Layer
+- Added Database Connection Management
+- Added Integration Testing
+```
